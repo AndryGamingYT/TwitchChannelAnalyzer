@@ -12,17 +12,12 @@ def main():
 
     # Search channel
     channel_name = input("Insert channel name: ")
-    channels = twitch_request.search_channels(channel_name, 5)
-    for i, channel in enumerate(channels):
-        print("{}) {}".format(i + 1, channel.display_name))
+    channels = twitch_request.search_channels(channel_name, 1)
+    if len(channels) == 0:
+        print("Channel not found!")
+        return
+    channel = channels[0]
 
-    # Select channel
-    channel_index = -1
-    while channel_index < 0 or channel_index > len(channels):
-        channel_index = input("Select channel: ")
-        channel_index = int(channel_index) - 1 if channel_index.isdigit() else -1
-
-    channel = channels[channel_index]
     # Show channel info
     print("\nSTATISTICS OF {}:".format(channel.display_name))
     print("Follows: {}".format(twitch_request.get_follows(channel.id)))
